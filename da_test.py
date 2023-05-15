@@ -33,27 +33,31 @@ for i in range(len(jobs['location'])):
 jobs['location'] = jobs['location'].apply(lambda x: x.split('$')[0])
 
     #Remove duplicate string 
-job_location = ''
+
+jobs_loc = []
 for i in range(len(jobs['location'])):
     job_loc = jobs['location'][i].split(',')[0]  #逗号前面的内容（后面不要）
     job_loc_1 = job_loc.split(':') #清楚了逗号后面的内容之后，将逗号前面的内容用:，会分成:前后两项（是一个list）job_loc_1 有[0][1]
     # print(job_loc_1)
-    inner_results = ''
+    job_location = ''
 
     for j in job_loc_1:
-        print(j) 
+        # print(j) 
         job_loc_2 = wordninja.split(j) #用wordninja分好之后有空格，但是有重复项的list
         # print(job_loc_2)
         job_loc_3 = list(set(job_loc_2))#去掉重复项
+        # print(job_loc_3)
         job_loc_final = ' '.join(job_loc_3)#用空格把list的内容合并
         # print(job_loc_final)
-        # job_location += 
+        if len(job_location) != 0:
+            job_location = job_location + ": "
+        job_location = job_location + job_loc_final
+        
+    print(job_location)
+    jobs_loc.append(job_location.title())
+jobs['location'] = jobs_loc
 
         
-
-   
-
-
 #Clean classification columns 
 for i in range(len(jobs['classification'])):
     if jobs['classification'][i].startswith('classification: '):
